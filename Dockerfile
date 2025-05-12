@@ -1,18 +1,12 @@
-# Imagen base oficial de Python
 FROM python:3.10-slim
 
-# Crear y establecer el directorio de trabajo
 WORKDIR /app
 
-# Copiar los archivos necesarios al contenedor
-COPY Darknet1.csv ./
-COPY Clase2BigData.ipynb ./
+COPY requirements.txt .
 
-# Instalar dependencias necesarias
-RUN pip install --no-cache-dir pandas jupyter numpy matplotlib seaborn
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Exponer el puerto 8888 para acceder a Jupyter Notebook
-EXPOSE 8888
+COPY etlpytthon.py .
+COPY http://cicresearch.ca/CICDataset/CICDarknet2020/Dataset/Darknet.CSV.
 
-# Comando para iniciar Jupyter Notebook
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
+CMD ["python", "etlpytthon.py"]
